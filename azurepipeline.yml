@@ -377,7 +377,7 @@ stages:
                   sleep 30
                   echo "✅ Reinicio completado"
 
-            # ---- Configurar CORS PROD ----
+            # ---- Configurar CORS PROD -------
             - task: AzureCLI@2
               displayName: '⚙️ Configurar CORS en Backend PROD'
               inputs:

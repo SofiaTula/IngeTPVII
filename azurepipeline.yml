@@ -16,7 +16,7 @@ variables:
   - name: RESOURCE_GROUP_NAME
     value: 'TPINGSOFT32025'
   - name: azureServiceConnection
-    value: 'azure-tp05-connection'
+    value: 'azure-tp07-connections'
   - name: backendAppNameQA
     value: 'coffehub-Backend-QA'
   - name: frontendAppNameQA
@@ -39,14 +39,14 @@ stages:
           echo "📦 Instalando dependencias del backend..."
           npm install
         displayName: '📦 Instalar Dependencias Backend'
-        workingDirectory: 'tp5/coffehub/backend'
+        workingDirectory: 'coffehub/backend'
 
       # ---- Ejecutar Tests Unitarios ----
       - script: |
           echo "🧪 Ejecutando tests unitarios con mocks..."
           npm run test:ci
         displayName: '🧪 Tests Unitarios'
-        workingDirectory: 'tp5/coffehub/backend'
+        workingDirectory: 'coffehub/backend'
         continueOnError: false
 
       # ---- Publicar Resultados de Tests ----
@@ -55,7 +55,7 @@ stages:
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '**/junit.xml'
-          searchFolder: 'tp5/coffehub/backend'
+          searchFolder: 'coffehub/backend'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Backend Tests'
@@ -66,14 +66,14 @@ stages:
         displayName: '📊 Publicar Code Coverage'
         inputs:
           codeCoverageTool: 'Cobertura'
-          summaryFileLocation: 'tp5/coffehub/backend/coverage/cobertura-coverage.xml'
-          reportDirectory: 'tp5/coffehub/backend/coverage'
+          summaryFileLocation: 'coffehub/backend/coverage/cobertura-coverage.xml'
+          reportDirectory: 'coffehub/backend/coverage'
         condition: succeededOrFailed()
 
       # ---- Publicar Artefacto Backend ----
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: 'tp5/coffehub/backend'
+          targetPath: 'coffehub/backend'
           artifact: 'backend-code'
         displayName: "📦 Publicar Código Backend"
         condition: succeeded()
@@ -85,14 +85,14 @@ stages:
           echo "📦 Instalando dependencias del frontend..."
           npm install
         displayName: '📦 Instalar Dependencias Frontend'
-        workingDirectory: 'tp5/coffehub/frontend'
+        workingDirectory: 'coffehub/frontend'
 
       # ---- Tests del Frontend ----
       - script: |
           echo "🧪 Ejecutando tests del frontend..."
           npm run test:ci
         displayName: '🧪 Tests Frontend'
-        workingDirectory: 'tp5/coffehub/frontend'
+        workingDirectory: 'coffehub/frontend'
         continueOnError: false
 
       # ---- Publicar Resultados de Tests Frontend ----
@@ -101,7 +101,7 @@ stages:
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: '**/junit.xml'
-          searchFolder: 'tp5/coffehub/frontend'
+          searchFolder: 'coffehub/frontend'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Frontend Tests'
@@ -112,13 +112,13 @@ stages:
         displayName: '📊 Publicar Code Coverage Frontend'
         inputs:
           codeCoverageTool: 'Cobertura'
-          summaryFileLocation: 'tp5/coffehub/frontend/coverage/cobertura-coverage.xml'
-          reportDirectory: 'tp5/coffehub/frontend/coverage'
+          summaryFileLocation: 'coffehub/frontend/coverage/cobertura-coverage.xml'
+          reportDirectory: 'coffehub/frontend/coverage'
         condition: succeededOrFailed()
 
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: 'tp5/coffehub/frontend'
+          targetPath: 'coffehub/frontend'
           artifact: 'frontend-code'
         displayName: "📦 Publicar Código Frontend"
         condition: succeeded()
